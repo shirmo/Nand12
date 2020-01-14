@@ -9,6 +9,7 @@
  */
 class Math {
     static Array twoToThe;
+    static int divisionHelper;
 
     /** Initializes the library. */
     function void init()
@@ -65,7 +66,7 @@ class Math {
         // iteration
         while(iter < 16)
         {
-            if(Math.bit(y, iter)
+            if(Math.bit(y, iter))
             {
                 let sum = sum + shiftX;
             }
@@ -73,7 +74,29 @@ class Math {
             let shiftX = shiftX + shiftX;
             let iter = iter + 1;
         }
+        return sum;
     }
+
+    function int divideHelper(int x, int y)
+    {
+        var int q;
+        // base case
+        if( (y > x) | (y < 0) )
+        {
+            return 0;
+        }
+        let q = Math.divideHelper(x, y+y);
+        if (y > divisionHelper)
+        {
+            return (q+q);
+        }
+        else
+        {
+            let divisionHelper = divisionHelper - y;
+            return (1+q+q);
+        }
+    }
+
 
     /** Returns the integer part of x/y.
      *  When a Jack compiler detects the multiplication operator '/' in the
@@ -82,7 +105,7 @@ class Math {
      */
     function int divide(int x, int y)
     {
-        var int q, division;
+        var int division;
         // Handling a neg/pos or pos/neg case
         var int isNegX, isNegY;
         let isNegX = 0;
@@ -90,31 +113,16 @@ class Math {
         if( x < 0 )
         {
             let isNegX = 1;
-            let x = x.Math.abs(x);
+            let x = Math.abs(x);
         }
         if( y < 0)
         {
             let isNegY = 1;
-            let y = y.Math.abs(y);
+            let y = Math.abs(y);
         }
-
-        // base case
-        if( y > x )
-        {
-            return 0;
-        }
-
         // calculation and recursive call
-        let q = Math.divide(x, 2*y);
-        if((x-((q+q)*y)) < y)
-        {
-            let division = q+q;
-        }
-        else
-        {
-            let division = (q+q)+1;
-        }
-
+        let divisionHelper = x;
+        let division = Math.divideHelper(x, y);
         // Handling a neg/pos or pos/neg case
         if ((isNegX +isNegY) = 1)
         {
@@ -126,14 +134,16 @@ class Math {
     /** Returns the integer part of the square root of x. */
     function int sqrt(int x)
     {
-        var int y, index;
+        var int y, index, temp, calc;
         let y = 0;
         let index = 7; //(16/2)-1
         while (~(index < 0))
         {
-            if(~( y + twoToThe[index]) > x) // y+2^index <= x
+            let temp = y +  twoToThe[index];
+            let calc = temp * temp;
+            if(~( calc > x) )// (y+2^index)^2 <= x
             {
-                if(( y + twoToThe[index]) > 0) // y+2^index > 0 for overflow
+                if( calc > 0) // (y+2^index)^2 > 0 for overflow purposes
                 {
                     let y = y + twoToThe[index];
                 }
