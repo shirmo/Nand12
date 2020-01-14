@@ -172,4 +172,17 @@ class Math {
         }
         return a;
     }
+
+    /**
+    * returns the value of the computation x%y
+    * will help us in Screen.drawPixel function
+    */
+    function int mod(int x, int y)
+    {
+        var int floorDivision;
+        var int modVal;
+        let floorDivision = (x/y);
+        let modVal = x - floorDivision;
+        return modVal;
+    }
 }
