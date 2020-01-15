@@ -25,6 +25,7 @@ class Screen {
         let height = 255;
         let screenBase = 16384;
         let screenMemSize = 8192;
+        let currentColor = true;
 
         let twoToTheScreen = Array.new(16);
         do Screen.setTwoToTheScreen();
