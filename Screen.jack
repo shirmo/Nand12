@@ -13,7 +13,7 @@ class Screen {
     static int width;
     static int height;
     static int screenBase;
-    static int screenMemSize;
+
     static boolean currentColor;
     static Array twoToTheScreen;
 
@@ -24,7 +24,6 @@ class Screen {
         let width = 511;
         let height = 255;
         let screenBase = 16384;
-        let screenMemSize = 8192;
         let currentColor = true;
 
         let twoToTheScreen = Array.new(16);
@@ -49,12 +48,18 @@ class Screen {
     /** Erases the entire screen. */
     function void clearScreen()
     {
-        var int index;
-        let index = screenBase;
-        while(index < screenBase + screenMemSize)
+        var int x, y;
+        do Screen.setColor(false);
+        let x = 0;
+        while (x < width)
         {
-            do Memory.peek(index, 0);
-            let index = index + 1;
+            let y = 0;
+            while (y < height)
+            {
+                do Screen.drawPixel(x, y);
+                let y = y + 1;
+            }
+            let x = x + 1;
         }
         return;
     }
@@ -89,7 +94,7 @@ class Screen {
         {
             let val = val & (~bit);
         }
-        do Memory.poke(addr, val);
+        do Memory.poke(addr + screenBase, val);
         return;
     }
 
@@ -99,10 +104,12 @@ class Screen {
         if (x1 = x2)
         {
             do Screen.drawVerticalLine(x1, y1, y2);
+            return;
         }
         if (y1 = y2)
         {
             do Screen.drawHorizontalLine(y1, x1, x2);
+            return;
         }
         if (x1 < x2)
         {
@@ -119,11 +126,11 @@ class Screen {
         {
             if(y1 < y2)
             {
-                do Screen.drawSouthEast(x2, y2, x1, y1);
+                do Screen.drawNorthEast(x2, y2, x1, y1);
             }
             else
             {
-                do Screen.drawNorthEast(x2, y2, x1, y1);
+                do Screen.drawSouthEast(x2, y2, x1, y1);
             }
         }
         return;
@@ -131,23 +138,26 @@ class Screen {
 
     function void drawNorthEast(int x1, int y1, int x2, int y2)
     {
-        var int a, b, x, y, dx, dy;
+        var int a, b, x, y, dx, dy, diff;
         let dx = x2 - x1;
         let dy = y1 - y2;
         let x = x1;
         let y = y1;
         let a = 0;
         let b = 0;
+        let diff = 0;
         while(~(a > dx) & ~(b > dy))
         {
             do Screen.drawPixel( x + a, y - b );
-            if(~(a=0) & (b/a > dy/dx))
+            if(diff < 0)
             {
                 let a = a + 1;
+                let diff = diff + dy;
             }
             else
             {
                 let b = b + 1;
+                let diff = diff - dx;
             }
         }
         return;
@@ -155,23 +165,27 @@ class Screen {
 
     function void drawSouthEast(int x1, int y1, int x2, int y2)
         {
-            var int a, b, x, y, dx, dy;
+            var int a, b, x, y, dx, dy, diff;
+            var String debug;
             let dx = x2 - x1;
             let dy = y2 - y1;
             let x = x1;
             let y = y1;
             let a = 0;
             let b = 0;
+            let diff = 0;
             while(~(a > dx) & ~(b > dy))
             {
-                do Screen.drawPixel( x + a, y + b );
-                if(~(a=0) & (b/a > dy/dx))
+                do Screen.drawPixel(x+a, y+b);
+                if(diff < 0)
                 {
                     let a = a + 1;
+                    let diff = diff + dy;
                 }
                 else
                 {
                     let b = b + 1;
+                    let diff = diff - dx;
                 }
             }
             return;
