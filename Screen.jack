@@ -49,6 +49,8 @@ class Screen {
     function void clearScreen()
     {
         var int x, y;
+        var bool color;
+        let color = currentColor;
         do Screen.setColor(false);
         let x = 0;
         while (x < width)
@@ -61,6 +63,7 @@ class Screen {
             }
             let x = x + 1;
         }
+        do Screen.setColor(color);
         return;
     }
 
