@@ -1,0 +1,24 @@
+meshi.djerassi, shirmo
+===============================================================================
+Meshi Djerassi, ID 315838151, meshi.djerassi@mail.huji.ac.il
+Shir Molina, ID 312535941, shir.molina@mail.huji.ac.il
+===============================================================================
+
+                           project 12 - The Operating System
+                ---------------------------------
+
+Submitted Files:
+----------------
+README- This file.
+Array.jack - Represents an array
+Keyboard.jack - A library for handling user input from the keyboard
+Math.jack - A library of commonly used mathematical functions
+Memory.jack - This library provides two services: direct access to the computer's main memory (RAM),
+  and allocation and recycling of memory blocks
+Output.jack - A library of functions for writing text on the screen
+Screen.jack - A library of functions for displaying graphics on the screen
+String.jack - Represents character strings
+Sys.jack - A library that supports various program execution services
+
+Remarks
+-------
