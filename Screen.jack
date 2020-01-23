@@ -209,7 +209,7 @@ class Screen {
             let runner = y1;
             let termination = y2;
         }
-        while(runner < termination)
+        while(~(runner > termination))
         {
             do Screen.drawPixel(x, runner);
             let runner = runner + 1;
@@ -231,7 +231,7 @@ class Screen {
             let runner = x1;
             let termination = x2;
         }
-        while(runner < termination)
+        while(~(runner > termination))
         {
             do Screen.drawPixel(runner, y);
             let runner = runner + 1;
